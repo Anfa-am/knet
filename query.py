@@ -65,6 +65,7 @@ def extend_knowledge(info):
 def learn2(query, depth):
     k = search(query+'-youtube -wikipedia', num=depth, stop=depth, pause=2)
     for j in k:
+        print(j)
         extend_context_url(j)
     return 
 
@@ -143,9 +144,11 @@ def thatone():
             if i < len(relatives):
                 print(relatives[i])
 
-                # register_context(relatives[i])
+                register_context(relatives[i])
+
                 # learn(relatives[i], depth)
-                # learn2(relatives[i], depth)
+
+                learn2(relatives[i], depth)
     else:
         register_context(query)
 
