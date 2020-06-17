@@ -10,6 +10,8 @@ import random
 import json
 import time
 
+import tempfile
+
 from goose3 import Goose
 
 from cleantext import clean
@@ -63,10 +65,22 @@ def extend_knowledge(info):
     return
 
 def learn2(query, depth):
-    k = search(query+' -site:youtube.com -wikipedia', num=depth, stop=depth, pause=2)
+    k = search(query + ' filetype:pdf', num=depth, stop=depth, pause=2)
+
     for j in k:
         print(j)
-        extend_context_url(j)
+        # extend_context_url(j)
+        try:
+            r = requests.get(j, allow_redirects=True)
+            tf = tempfile.NamedTemporaryFile()
+            open(tf.name + '.pdf', 'wb').write(r.content)
+            text = textract.process(tf.name+'.pdf', method='pdfminer')
+            cleaned = clean(text, no_urls=True,no_line_breaks=True) 
+            print(cleaned)
+            extend_knowledge(cleaned)
+        except:
+            pass
+
     return 
 
 def learn(query, depth):
