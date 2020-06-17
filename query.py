@@ -63,7 +63,7 @@ def extend_knowledge(info):
     return
 
 def learn2(query, depth):
-    k = search(query+'-youtube -wikipedia', num=depth, stop=depth, pause=2)
+    k = search(query+' -site:youtube.com -wikipedia', num=depth, stop=depth, pause=2)
     for j in k:
         print(j)
         extend_context_url(j)
